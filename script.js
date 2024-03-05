@@ -9,3 +9,5 @@ fetch(deckUrl)
     })
     .catch(error => console.error("Error fetching deck:", error));
 
+    const drawButton = document.getElementById('draw-card');
+    const cardDisplay = document.getElementById('card-display');
