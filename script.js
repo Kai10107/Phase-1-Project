@@ -16,7 +16,13 @@ fetch(deckUrl)
       fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
           .then(response => response.json())
           .then(data => {
-              console.log(data); 
+            const card = data.cards[0]; 
+            const cardImage = document.createElement('img');
+            cardImage.src = card.image;
+            cardDisplay.appendChild(cardImage); 
+              
           })
           .catch(error => console.error("Error drawing a card:", error));
   });
+
+ 
