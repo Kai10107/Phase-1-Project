@@ -25,4 +25,9 @@ fetch(deckUrl)
           .catch(error => console.error("Error drawing a card:", error));
   });
 
- 
+   const shuffleButton = document.getElementById('shuffle-deck'); 
+
+   shuffleButton.addEventListener('click', () => {
+    
+  
+});
