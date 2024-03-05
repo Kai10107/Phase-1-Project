@@ -34,3 +34,11 @@ fetch(deckUrl)
       fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/shuffle/`);
     });
   });
+
+
+  let playerHand = [];
+  let dealerHand = [];
+  let playerScore = 0;
+  let gameStarted = false;
+
+  
