@@ -11,3 +11,12 @@ fetch(deckUrl)
 
     const drawButton = document.getElementById('draw-card');
     const cardDisplay = document.getElementById('card-display');
+
+    drawButton.addEventListener('click', () => {
+      fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
+          .then(response => response.json())
+          .then(data => {
+              console.log(data); 
+          })
+          .catch(error => console.error("Error drawing a card:", error));
+  });
