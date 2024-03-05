@@ -41,4 +41,6 @@ fetch(deckUrl)
   let playerScore = 0;
   let gameStarted = false;
 
-  
+  const dealButton = document.getElementById("deal-button");
+
+   dealButton.addEventListener('click', () => {
