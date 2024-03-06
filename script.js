@@ -57,7 +57,29 @@ fetch(deckUrl)
 
 
 
-    function deal() {}
+    function deal() {
+      if (gameStarted) {
+        alert("Please finish the current game before starting a new one.");
+        return;
+    }
+
+    resetGame(); 
+    fetch(drawUrl + "2") 
+        .then(response => response.json())
+        .then(data => {
+            playerHand = data.cards;
+            updatePlayerHandDisplay();
+            playerScore = calculateScore(playerHand);
+            updateScoreDisplay('player-score', playerScore);
+        });
+
+    fetch(drawUrl + "1") 
+        .then(response => response.json())
+        .then(data => {
+            dealerHand.push(data.cards[0]);
+            updateDealerHandDisplay();
+        });
+}
 
 
     function hit() {}
