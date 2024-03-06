@@ -74,7 +74,11 @@ fetch(deckUrl)
 
     
 
-function updatePlayerHandDisplay() {}
+function updatePlayerHandDisplay() {
+ const updatePlayerHandDisplay = document.getElementById('player-hand');
+}
 
 
-function updateDealerHandDispaly() {}
+function updateDealerHandDispaly() {
+ const dealerHandDisplay = document.getElementById('dealer-hand');
+}
