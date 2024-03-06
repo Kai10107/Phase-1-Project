@@ -82,7 +82,27 @@ fetch(deckUrl)
 }
 
 
-    function hit() {}
+function hit() {
+  if (!gameStarted) {
+      alert("Please start a game first.");
+      return;
+  }
+
+  fetch(drawUrl + '1')
+      .then(response => response.json())
+      .then(data => {
+          playerHand.push(data.cards[0]);
+          updatePlayerHandDisplay();
+
+          playerScore = calculateScore(playerHand);
+          updateScoreDisplay('player-score', playerScore);
+
+          if (playerScore > 21) {
+              alert("Bust! You lose.");
+              gameStarted = false;
+          }
+      });
+}
 
 
     function updatePlayerHandDisplay() {
