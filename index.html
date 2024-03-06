@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Card Project</title>
-    <link rel="stylesheet" href="style.css"> 
-</head>
+    <title>War Card Game</title>
+    <link rel="stylesheet" href="style.css"> </head>
 <body>
-    <div class="container">
-        <h1>Card Game</h1>
-        <input type="number" id="card-count" min="1" value="1"> 
-        <button id="draw-card">Draw a Card</button>
-        <button id="shuffle-deck">Shuffle Deck</button>
-        <div id="card-display"></div> 
-    </div>
-    <script src="script.js"></script>
-</body>
+    <div class="container"> 
+        <h1>War</h1>
+
+        <div id="player-area">
+            <h2>Player </h2>
+            <div id="player-score">Score: 0</div>
+        </div>
+
+        <div id="battleground">
+            </div>
+
+        <div id="computer-area">
+            <h2>Computer</h2>
+            <div id="computer-score">Score: 0</div>
+        </div>
+
+        <button id="play-round">Play Round</button>
+        <div id="game-result"></div> </div>
+
+    <script src="script.js"></script> </body>
 </html>
