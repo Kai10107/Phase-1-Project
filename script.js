@@ -18,13 +18,11 @@ fetch(deckUrl)
     const drawButton = document.getElementById("draw-card");
     const cardDisplay = document.getElementById("card-display");
     const shuffleButton = document.getElementById("shuffle-deck");
-    const dealButton = document.getElementById("deal-button");
-    const hitButton = document.getElementById("hit-button");
+
 
     drawButton.addEventListener("click", () => drawCard()); 
     shuffleButton.addEventListener("click", () => shuffleDeck());
-    dealButton.addEventListener("click", () => deal());
-    hitButton.addEventListener("click", () => hit());
+
 
 
     // Functions
@@ -57,106 +55,3 @@ fetch(deckUrl)
 
 
 
-    function deal() {
-      if (gameStarted) {
-        alert("Please finish the current game before starting a new one.");
-        return;
-    }
-
-    resetGame(); 
-    fetch(drawUrl + "2") 
-        .then(response => response.json())
-        .then(data => {
-            playerHand = data.cards;
-            updatePlayerHandDisplay();
-            playerScore = calculateScore(playerHand);
-            updateScoreDisplay('player-score', playerScore);
-        });
-
-    fetch(drawUrl + "1") 
-        .then(response => response.json())
-        .then(data => {
-            dealerHand.push(data.cards[0]);
-            updateDealerHandDisplay();
-        });
-}
-
-
-function hit() {
-  if (!gameStarted) {
-      alert("Please start a game first.");
-      return;
-  }
-
-  fetch(drawUrl + '1')
-      .then(response => response.json())
-      .then(data => {
-          playerHand.push(data.cards[0]);
-          updatePlayerHandDisplay();
-
-          playerScore = calculateScore(playerHand);
-          updateScoreDisplay('player-score', playerScore);
-
-          if (playerScore > 21) {
-              alert("Bust! You lose.");
-              gameStarted = false;
-          }
-      });
-}
-
-
-    function updatePlayerHandDisplay() {
-      const playerHandDisplay = document.getElementById("player-hand");
-      playerHandDisplay.innerHtml = "";
-      playerHand.forEach(card => displayCard(card));
-    }
-
-
-    function updateDealerHandDisplay() {
-      const DealerHandDisplay = document.getElementById("dealer-hand");
-      dealerHandDisplay.innerHtml = "";
-      dealerHand.forEach(card => displayCard(card));
-    }
-
-
-    function calculateScore(hand) {
-      let score = 0;
-      let hasAce = false;
-
-  for (const card of hand) {
-    let cardValue = card.value;
-
-    if (
-      Card.value === "JACK" ||
-      card.value === "QUEEN" ||
-      card.value === "KING"
-    ) {
-      cardValue = 10;
-    } else if (card.value === "ACE") {
-      hasAce = true;
-      cardValue = 11;
-    }
-    score += cardValue;
-  }
-  if (hasAce && score > 21) {
-    score -= 10;
-  }
-  return score;
-}
-
-
-    function updateScoreDisplay(scoreElementId, score) {
-      const scoreDisplay = document.getElementById(scoreElementId);
-      scoreDispaly.textContent = 'Score: ' + score;
-    }
-
-
-    function resetGame() {
-      playerHand = [];
-      dealerHand = [];
-      playerScore = 0;
-      gameStarted = true;
-
-      updatePlayerHandDisplay();
-      updateDealerHandDisplay();
-    }
