@@ -87,4 +87,8 @@ function updatePlayerHandDisplay() {
 
 function updateDealerHandDispaly() {
  const dealerHandDisplay = document.getElementById('dealer-hand');
+ dealerHandDisplay.innerHTML = '';
+ let cardImage = document.createElement('img');
+ cardImage.src = card.image;
+ dealerHandDisplay.appendChild(cardImage);
 }
