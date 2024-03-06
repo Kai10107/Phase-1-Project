@@ -44,3 +44,37 @@ fetch(deckUrl)
   const dealButton = document.getElementById("deal-button");
 
    dealButton.addEventListener('click', () => {
+   if (gameStarted) {
+    alert("Please finish the current game before starting a new one.");
+    return;  
+    }
+    fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/shuffle/`)
+   
+      
+    })
+    playerHand = [];
+    dealerHand = [];
+    playerScore = 0;
+    gameStarted = true; 
+
+    fetch(drawUrl + '2') 
+    .then(response => response.json())
+    .then(data => {
+        playerHand = data.cards;
+        updatePlayerHandDisplay(); 
+      }); 
+
+        fetch(drawUrl + '1')
+        .then(response => response.json())
+        .then(data => {
+            dealerHand.push(data.cards[0]); 
+             updateDealerHandDisplay();
+        });
+        
+
+    
+
+function updatePlayerHandDisplay() {}
+
+
+function updateDealerHandDispaly() {}
