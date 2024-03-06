@@ -76,6 +76,12 @@ fetch(deckUrl)
 
 function updatePlayerHandDisplay() {
  const updatePlayerHandDisplay = document.getElementById('player-hand');
+ PlayerHandDisplay.innerHTML = '';
+ playerHand.forEach(card => {
+  let cardImage = document.createElement('img');
+  cardImage.src = card.image;
+  playerHandDisplay.appendChild(cardImage);
+ });
 }
 
 
