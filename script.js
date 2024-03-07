@@ -38,10 +38,27 @@ function displayCards(cards) {
 }
 
 
-function determineRoundWinner(cards) {}
+function determineRoundWinner(cards) {
+  const [playerCardValue, computerCardValue] = getCardValues(cards); 
+
+    if (playerCardValue > computerCardValue) {
+        roundResult.textContent = "Player Wins the Round!";
+        playerScore++;
+    } else if (playerCardValue < computerCardValue) {
+        roundResult.textContent = "Computer Wins the Round!";
+        computerScore++;
+    } else {
+        roundResult.textContent = "It's a Tie!";
+    }
+
+    updateScores();
+    checkWinCondition();
+}
 
 
-function getCardValues(cards) {}
+function getCardValues(cards) {
+  return [cards[0].value, cards[1].value]; 
+}
 
 
 function updateScores() {}
