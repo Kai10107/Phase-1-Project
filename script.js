@@ -21,10 +21,21 @@ const gameResult = document.getElementById("game-result");
 playButton.addEventListener("click", playRound);
 
 
-function playRound() {}
+function playRound() {
+  playerCard.innerHTML = computerCard.innerHTML = ''; 
+  fetch(drawUrl + deckId + "/draw/?count=2")
+      .then(res => res.json())
+      .then(data => {
+          displayCards(data.cards);
+          determineRoundWinner(data.cards);
+      }); 
+}
 
 
-function displayCards(cards) {}
+function displayCards(cards) {
+  playerCard.innerHTML = `<img src="${cards[0].image}">`;
+  computerCard.innerHTML = `<img src="${cards[1].image}">`;
+}
 
 
 function determineRoundWinner(cards) {}
