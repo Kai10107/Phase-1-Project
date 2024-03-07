@@ -2,27 +2,31 @@
 <html>
 <head>
     <title>War Card Game</title>
-    <link rel="stylesheet" href="style.css"> </head>
+    <link rel="stylesheet" href="style.css"> 
+</head>
 <body>
     <div class="container"> 
         <h1>War</h1>
 
         <div id="player-area">
             <h2>Player </h2>
+            <div id="player-card"></div> 
             <div id="player-score">Score: 0</div>
         </div>
 
         <div id="battleground">
-            </div>
+            <button id="play-round">Play Round</button>
+            <div id="round-result"></div> 
+            <div id="game-result"></div> 
+        </div>
 
         <div id="computer-area">
             <h2>Computer</h2>
+            <div id="computer-card"></div> 
             <div id="computer-score">Score: 0</div>
         </div>
 
-        <button id="play-round">Play Round</button>
-        <div id="round-result"></div> 
-        <div id="game-result"></div> </div>
-
-    <script src="script.js"></script> </body>
+    </div>
+    <script src="script.js"></script> 
+</body>
 </html>
