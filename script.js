@@ -18,6 +18,7 @@ const playerScoreDisplay = document.getElementById("player-score");
 const computerScoreDisplay = document.getElementById("computer-score");
 const gameResult = document.getElementById("game-result");
 
+
 playButton.addEventListener("click", playRound);
 
 
