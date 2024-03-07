@@ -1,34 +1,39 @@
-const deckUrl = "https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1";
+const deckUrl =
+  "https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1";
 const drawUrl = "https://www.deckofcardsapi.com/api/deck/";
 
-fetch(deckUrl)
-  .then(response => response.json())
-  .then(data => {
-    deckId = data.deck_id;
-   
-  function drawCards(count) {
-    const updatedDrawUrl = drawUrl + deckId + "/draw/?count=" + count;
+let deckId,
+  playerScore = 0,
+  computerScore = 0;
 
-    fetch(updatedDrawUrlUrl)
-    .then(response => response.json())
-    .then(data => {
-      const drawnCards = data.cards;
-            
-    });    
-} 
+fetch(deckUrl)
+  .then((res) => res.json())
+  .then((data) => (deckId = data.deck_id));
 
 const playButton = document.getElementById("play-round");
-const roundResult = document.getElementById("round-result"); 
+const roundResult = document.getElementById("round-result");
+const playerCard = document.getElementById("player-card");
+const computerCard = document.getElementById("computer-card");
+const playerScoreDisplay = document.getElementById("player-score");
+const computerScoreDisplay = document.getElementById("computer-score");
+const gameResult = document.getElementById("game-result");
 
-playButton.addEventListener("click", () => {
-    drawCards(2); 
+playButton.addEventListener("click", playRound);
 
-    if (drawnCards[0].value > drawnCards[1].value) {
-        roundResult.textContent = "Player Wins the Round!";
-    } else if (drawnCards[0].value < drawnCards[1].value) {
-        roundResult.textContent = "Computer Wins the Round!";
-    } else {
-        roundResult.textContent = "It's a Tie!";
-    }
-  });
-});
+
+function playRound() {}
+
+
+function displayCards(cards) {}
+
+
+function determineRoundWinner(cards) {}
+
+
+function getCardValues(cards) {}
+
+
+function updateScores() {}
+
+
+function checkWinCondition() {}
