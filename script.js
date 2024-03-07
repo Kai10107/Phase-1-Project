@@ -61,7 +61,17 @@ function getCardValues(cards) {
 }
 
 
-function updateScores() {}
+function updateScores() {
+  playerScoreDisplay.textContent = "Score: " + playerScore;
+  computerScoreDisplay.textContent = "Score: " + computerScore;
+}
 
-
-function checkWinCondition() {}
+function checkWinCondition() {
+  if (playerScore >= 10) {
+      gameResult.textContent = "Player Wins!";
+      playButton.disabled = true; 
+  } else if (computerScore >= 10) {
+      gameResult.textContent = "Computer Wins!";
+      playButton.disabled = true; 
+  }
+}
