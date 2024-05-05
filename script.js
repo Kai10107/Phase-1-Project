@@ -6,9 +6,22 @@ let deckId,
   playerScore = 0,
   computerScore = 0;
 
+  let playerDeck = [];
+  let computerDeck = [];
+
 fetch(deckUrl)
   .then((res) => res.json())
-  .then((data) => (deckId = data.deck_id));
+  .then((data) => {
+   deckId = data.deck_id;
+   return fetch(`${drawUrl}${deckId}/draw/?count=52`);
+  })
+  .then((res) => res.json())
+  .then((data) => {
+    const cards = data.cards;
+    playerDeck = cards.slice(0, 26);
+    computerDeck = cards.slice(26);
+  });
+
 
 const playButton = document.getElementById("play-round");
 const roundResult = document.getElementById("round-result");
@@ -23,31 +36,39 @@ playButton.addEventListener("click", playRound);
 
 
 function playRound() {
-  playerCard.innerHTML = computerCard.innerHTML = ''; 
-  fetch(drawUrl + deckId + "/draw/?count=2")
-      .then(res => res.json())
-      .then(data => {
-          displayCards(data.cards);
-          determineRoundWinner(data.cards);
-      }); 
+ 
+  if (playerDeck.length === 0 || computerDeck.length === 0) {
+   
+    return;
+  }
+
+ 
+  const playerCard = playerDeck.shift();
+  const computerCard = computerDeck.shift();
+
+  displayCards([playerCard, computerCard]);
+  determineRoundWinner(playerCard, computerCard);
 }
 
 
 function displayCards(cards) {
-  playerCard.innerHTML = `<img src="${cards[0].image}"class="card">`;
-  computerCard.innerHTML = `<img src="${cards[1].image}"class="card">`;
+  playerCard.innerHTML = `<img src="${cards[0].image}" class="card">`;
+  computerCard.innerHTML = `<img src="${cards[1].image}" class="card">`;
 }
 
-
-function determineRoundWinner(cards) {
-  const [playerCardValue, computerCardValue] = getCardValues(cards); 
+function determineRoundWinner(playerCard, computerCard) {
+   
+  const playerCardValues = getCardValue(playerCard.value);
+  const computerCardValues = getCardValue(computerCard.value);
 
     if (playerCardValue > computerCardValue) {
         roundResult.textContent = "Player Wins the Round!";
         playerScore++;
+        
     } else if (playerCardValue < computerCardValue) {
         roundResult.textContent = "Computer Wins the Round!";
         computerScore++;
+         
     } else {
         roundResult.textContent = "It's a Tie!";
     }
@@ -55,11 +76,17 @@ function determineRoundWinner(cards) {
     updateScores();
     checkWinCondition();
 }
-
-
-function getCardValues(cards) {
-  return [cards[0].value, cards[1].value]; 
+function getCardValue(cardValue) {
+  if (['JACK', 'QUEEN', 'KING'].includes(cardValue)) {
+    return 11;
+  } else if (cardValue === 'ACE') {
+    return 12;
+  } else {
+    return parseInt(cardValue);
+  }
 }
+
+
 
 
 function updateScores() {
