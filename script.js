@@ -63,8 +63,8 @@ function getCardValues(cards) {
 
 
 function updateScores() {
-  playerScoreDisplay.textContent = "Score: " + playerScore;
-  computerScoreDisplay.textContent = "Score: " + computerScore;
+  playerScoreDisplay.textContent = "Player Score: " + playerScore;
+  computerScoreDisplay.textContent = "Computer Score: " + computerScore;
 }
 
 function checkWinCondition() {
