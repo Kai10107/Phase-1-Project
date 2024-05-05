@@ -34,8 +34,8 @@ function playRound() {
 
 
 function displayCards(cards) {
-  playerCard.innerHTML = `<img src="${cards[0].image}">`;
-  computerCard.innerHTML = `<img src="${cards[1].image}">`;
+  playerCard.innerHTML = `<img src="${cards[0].image}"class="card">`;
+  computerCard.innerHTML = `<img src="${cards[1].image}"class="card">`;
 }
 
 

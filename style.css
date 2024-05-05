@@ -32,3 +32,12 @@ body {
 
 }
 
+.card {
+  transition: transform 0.3 ease;
+  transform: scale(0.5);
+}
+
+.card:hover {
+  transform: scale(1);
+}
+
