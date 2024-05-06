@@ -12,7 +12,7 @@ let deckId,
     
 document.addEventListener('DOMContentLoaded', function() {
   console.log('Document loaded and ready');
-  // Fetch and prepare the deck
+ 
   fetch(deckUrl)
     .then(res => res.json())
     .then(data => {
@@ -25,6 +25,8 @@ document.addEventListener('DOMContentLoaded', function() {
       playerDeck = cards.slice(0, 26);
       computerDeck = cards.slice(26);
       console.log('Decks are ready for play');
+      // Add mouseover event listeners after decks are ready
+      addMouseoverEventListeners();
     })
     .catch(error => {
       console.error('Error fetching the deck:', error);
@@ -111,6 +113,16 @@ function getCardValue(cardValue) {
 function updateScores() {
   playerScoreDisplay.textContent = `Player Score: ${playerScore} (Cards left: ${playerDeck.length})`;
   computerScoreDisplay.textContent = `Computer Score: ${computerScore} (Cards left: ${computerDeck.length})`;
+}
+
+function addMouseoverEventListeners() {
+  playerCard.addEventListener('mouseover', function() {
+    this.title = `Cards left: ${playerDeck.length}`;
+  });
+
+  computerCard.addEventListener('mouseover', function() {
+    this.title = `Cards left: ${computerDeck.length}`;
+  });
 }
 
 function checkWinCondition() {

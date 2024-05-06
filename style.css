@@ -28,8 +28,8 @@ body {
 
 #play-round {
   margin-top: 20px;
-  background-color: #3a87d8; /* A nice blue */
-  color: #ffffff; /* White text */
+  background-color: #3a87d8; 
+  color: #ffffff; 
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -37,7 +37,7 @@ body {
   
 }
 #play-round:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background-color: #0056b3; 
 }
 
 
