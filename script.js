@@ -1,38 +1,35 @@
-const deckUrl =
-  "https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1";
+const deckUrl = "https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1";
 const drawUrl = "https://www.deckofcardsapi.com/api/deck/";
 
 let deckId,
-  playerScore = 0,
-  computerScore = 0;
+    playerScore = 0,
+    computerScore = 0,
+    playerDeck = [],
+    computerDeck = [],
+    playerWonCards = [],
+    computerWonCards = [],
+    tiedCards = []; // Array to hold tied cards
 
-  let playerDeck = [];
-  let computerDeck = [];
-
-  let playerWonCards = [];
-  let computerWonCards = [];
-
-  function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]]; 
-    }
-    return array;
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
   }
+  return array;
+}
 
 fetch(deckUrl)
-  .then((res) => res.json())
-  .then((data) => {
-   deckId = data.deck_id;
-   return fetch(`${drawUrl}${deckId}/draw/?count=52`);
+  .then(res => res.json())
+  .then(data => {
+    deckId = data.deck_id;
+    return fetch(`${drawUrl}${deckId}/draw/?count=52`);
   })
-  .then((res) => res.json())
-  .then((data) => {
+  .then(res => res.json())
+  .then(data => {
     const cards = data.cards;
     playerDeck = cards.slice(0, 26);
     computerDeck = cards.slice(26);
   });
-
 
 const playButton = document.getElementById("play-round");
 const roundResult = document.getElementById("round-result");
@@ -41,10 +38,8 @@ const computerCard = document.getElementById("computer-card");
 const playerScoreDisplay = document.getElementById("player-score");
 const computerScoreDisplay = document.getElementById("computer-score");
 const gameResult = document.getElementById("game-result");
-const playerWonCardsContainer = document.getElementById("player-won-cards");
 
 playButton.addEventListener("click", playRound);
-
 
 function playRound() {
   if (playerDeck.length === 0 && playerWonCards.length > 0) {
@@ -63,12 +58,10 @@ function playRound() {
     displayCards([playerCard, computerCard]);
     determineRoundWinner(playerCard, computerCard);
   } else {
-
     gameResult.textContent = "Game Over!";
     playButton.disabled = true;
   }
 }
-
 
 function displayCards(cards) {
   playerCard.innerHTML = `<img src="${cards[0].image}" class="card">`;
@@ -82,45 +75,36 @@ function determineRoundWinner(playerCard, computerCard) {
   if (playerCardValue > computerCardValue) {
     roundResult.textContent = "Player Wins the Round!";
     playerScore++;
-    playerWonCards.push(playerCard, computerCard);
+    playerWonCards.push(playerCard, computerCard, ...tiedCards);
+    tiedCards = [];
   } else if (playerCardValue < computerCardValue) {
     roundResult.textContent = "Computer Wins the Round!";
     computerScore++;
-    computerWonCards.push(playerCard, computerCard); 
+    computerWonCards.push(playerCard, computerCard, ...tiedCards);
+    tiedCards = [];
   } else {
     roundResult.textContent = "It's a Tie!";
-    
+    tiedCards.push(playerCard, computerCard);
   }
 
   updateScores();
-  checkWinCondition();
 }
+
 function getCardValue(cardValue) {
   if (['JACK', 'QUEEN', 'KING'].includes(cardValue)) {
     return 11;
   } else if (cardValue === 'ACE') {
     return 12;
   } else {
-    return parseInt(cardValue);
+    return Number(cardValue);
   }
 }
 
-
-
-
 function updateScores() {
-  playerScoreDisplay.textContent = "Player Score: " + playerScore + " (Cards left: " + playerDeck.length + ")";
-  computerScoreDisplay.textContent = "Computer Score: " + computerScore + " (Cards left: " + computerDeck.length + ")";
+  playerScoreDisplay.textContent = `Player Score: ${playerScore} (Cards left: ${playerDeck.length})`;
+  computerScoreDisplay.textContent = `Computer Score: ${computerScore} (Cards left: ${computerDeck.length})`;
 }
 
-function displayWonCards() {
-   
-  playerWonCardsContainer.innerHTML = '';
-  
-  playerWonCards.forEach(card => {
-    const cardElement = document.createElement("img");
-    cardElement.src = card.image;
-    cardElement.classList.add("card"); 
-    playerWonCardsContainer.appendChild(cardElement);
-  });
+function checkWinCondition() {
+  // Implement any win condition checks here, if necessary
 }
