@@ -9,6 +9,17 @@ let deckId,
   let playerDeck = [];
   let computerDeck = [];
 
+  let playerWonCards = [];
+  let computerWonCards = [];
+
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]]; 
+    }
+    return array;
+  }
+
 fetch(deckUrl)
   .then((res) => res.json())
   .then((data) => {
@@ -30,24 +41,32 @@ const computerCard = document.getElementById("computer-card");
 const playerScoreDisplay = document.getElementById("player-score");
 const computerScoreDisplay = document.getElementById("computer-score");
 const gameResult = document.getElementById("game-result");
-
+const playerWonCardsContainer = document.getElementById("player-won-cards");
 
 playButton.addEventListener("click", playRound);
 
 
 function playRound() {
- 
-  if (playerDeck.length === 0 || computerDeck.length === 0) {
-   
-    return;
+  if (playerDeck.length === 0 && playerWonCards.length > 0) {
+    playerDeck = shuffle(playerWonCards);
+    playerWonCards = [];
+  }
+  if (computerDeck.length === 0 && computerWonCards.length > 0) {
+    computerDeck = shuffle(computerWonCards);
+    computerWonCards = [];
   }
 
- 
-  const playerCard = playerDeck.shift();
-  const computerCard = computerDeck.shift();
+  if (playerDeck.length > 0 && computerDeck.length > 0) {
+    const playerCard = playerDeck.shift();
+    const computerCard = computerDeck.shift();
 
-  displayCards([playerCard, computerCard]);
-  determineRoundWinner(playerCard, computerCard);
+    displayCards([playerCard, computerCard]);
+    determineRoundWinner(playerCard, computerCard);
+  } else {
+
+    gameResult.textContent = "Game Over!";
+    playButton.disabled = true;
+  }
 }
 
 
@@ -57,24 +76,24 @@ function displayCards(cards) {
 }
 
 function determineRoundWinner(playerCard, computerCard) {
-   
-  const playerCardValues = getCardValue(playerCard.value);
-  const computerCardValues = getCardValue(computerCard.value);
+  const playerCardValue = getCardValue(playerCard.value);
+  const computerCardValue = getCardValue(computerCard.value);
 
-    if (playerCardValue > computerCardValue) {
-        roundResult.textContent = "Player Wins the Round!";
-        playerScore++;
-        
-    } else if (playerCardValue < computerCardValue) {
-        roundResult.textContent = "Computer Wins the Round!";
-        computerScore++;
-         
-    } else {
-        roundResult.textContent = "It's a Tie!";
-    }
+  if (playerCardValue > computerCardValue) {
+    roundResult.textContent = "Player Wins the Round!";
+    playerScore++;
+    playerWonCards.push(playerCard, computerCard);
+  } else if (playerCardValue < computerCardValue) {
+    roundResult.textContent = "Computer Wins the Round!";
+    computerScore++;
+    computerWonCards.push(playerCard, computerCard); 
+  } else {
+    roundResult.textContent = "It's a Tie!";
+    
+  }
 
-    updateScores();
-    checkWinCondition();
+  updateScores();
+  checkWinCondition();
 }
 function getCardValue(cardValue) {
   if (['JACK', 'QUEEN', 'KING'].includes(cardValue)) {
@@ -90,16 +109,18 @@ function getCardValue(cardValue) {
 
 
 function updateScores() {
-  playerScoreDisplay.textContent = "Player Score: " + playerScore;
-  computerScoreDisplay.textContent = "Computer Score: " + computerScore;
+  playerScoreDisplay.textContent = "Player Score: " + playerScore + " (Cards left: " + playerDeck.length + ")";
+  computerScoreDisplay.textContent = "Computer Score: " + computerScore + " (Cards left: " + computerDeck.length + ")";
 }
 
-function checkWinCondition() {
-  if (playerScore >= 10) {
-      gameResult.textContent = "Player Wins!";
-      playButton.disabled = true; 
-  } else if (computerScore >= 10) {
-      gameResult.textContent = "Computer Wins!";
-      playButton.disabled = true; 
-  }
+function displayWonCards() {
+   
+  playerWonCardsContainer.innerHTML = '';
+  
+  playerWonCards.forEach(card => {
+    const cardElement = document.createElement("img");
+    cardElement.src = card.image;
+    cardElement.classList.add("card"); 
+    playerWonCardsContainer.appendChild(cardElement);
+  });
 }
