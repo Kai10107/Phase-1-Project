@@ -8,7 +8,28 @@ let deckId,
     computerDeck = [],
     playerWonCards = [],
     computerWonCards = [],
-    tiedCards = []; // Array to hold tied cards
+    tiedCards = [];
+    
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('Document loaded and ready');
+  // Fetch and prepare the deck
+  fetch(deckUrl)
+    .then(res => res.json())
+    .then(data => {
+      deckId = data.deck_id;
+      return fetch(`${drawUrl}${deckId}/draw/?count=52`);
+    })
+    .then(res => res.json())
+    .then(data => {
+      const cards = data.cards;
+      playerDeck = cards.slice(0, 26);
+      computerDeck = cards.slice(26);
+      console.log('Decks are ready for play');
+    })
+    .catch(error => {
+      console.error('Error fetching the deck:', error);
+    });
+});
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -17,19 +38,6 @@ function shuffle(array) {
   }
   return array;
 }
-
-fetch(deckUrl)
-  .then(res => res.json())
-  .then(data => {
-    deckId = data.deck_id;
-    return fetch(`${drawUrl}${deckId}/draw/?count=52`);
-  })
-  .then(res => res.json())
-  .then(data => {
-    const cards = data.cards;
-    playerDeck = cards.slice(0, 26);
-    computerDeck = cards.slice(26);
-  });
 
 const playButton = document.getElementById("play-round");
 const roundResult = document.getElementById("round-result");
@@ -67,6 +75,7 @@ function displayCards(cards) {
   playerCard.innerHTML = `<img src="${cards[0].image}" class="card" title="Cards left: ${playerDeck.length}, Win pile: ${playerWonCards.length}">`;
   computerCard.innerHTML = `<img src="${cards[1].image}" class="card" title="Cards left: ${computerDeck.length}, Win pile: ${computerWonCards.length}">`;
 }
+
 function determineRoundWinner(playerCard, computerCard) {
   const playerCardValue = getCardValue(playerCard.value);
   const computerCardValue = getCardValue(computerCard.value);
