@@ -64,10 +64,9 @@ function playRound() {
 }
 
 function displayCards(cards) {
-  playerCard.innerHTML = `<img src="${cards[0].image}" class="card">`;
-  computerCard.innerHTML = `<img src="${cards[1].image}" class="card">`;
+  playerCard.innerHTML = `<img src="${cards[0].image}" class="card" title="Cards left: ${playerDeck.length}, Win pile: ${playerWonCards.length}">`;
+  computerCard.innerHTML = `<img src="${cards[1].image}" class="card" title="Cards left: ${computerDeck.length}, Win pile: ${computerWonCards.length}">`;
 }
-
 function determineRoundWinner(playerCard, computerCard) {
   const playerCardValue = getCardValue(playerCard.value);
   const computerCardValue = getCardValue(computerCard.value);
@@ -106,5 +105,5 @@ function updateScores() {
 }
 
 function checkWinCondition() {
-  // Implement any win condition checks here, if necessary
+  
 }
